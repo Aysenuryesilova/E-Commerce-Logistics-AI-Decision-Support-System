@@ -1,0 +1,12 @@
+# Büyük veri setlerini yoksay
+*.csv
+*.xlsx
+
+# Veritabanı dosyalarını yoksay
+*.db
+*.sqlite
+
+# Python çalışma dosyaları ve checkpoint'leri
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
