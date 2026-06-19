@@ -29,3 +29,23 @@ print("📆 Tarih formatları düzeltildi ve temizlendi!")
 # Kontrol için ilk 3 satırın özetini terminale basalım
 print("\n--- İlk Üç Satırın Özeti ---")
 print(master_df[['order_id', 'freight_value']].head(3))
+
+# --- ADIM 4: SWARA-COBRA İÇİN KRİTERLERİN HESAPLANMASI ---
+print("\n📊 Kriter metrikleri hesaplanıyor...")
+
+# 1. Hız (Teslimat Süresi - Gün Cinsinden)
+master_df['hiz_gun'] = (master_df['order_delivered_customer_date'] - master_df['order_purchase_timestamp']).dt.total_seconds() / 86400
+
+# 2. Sözünde Durma (Gecikme Gün Sayısı)
+# Tahmini tarihten ne kadar saptığını buluyoruz (Negatif değerler kargonun erken geldiğini gösterir, yani iyi)
+master_df['gecikme_gun'] = (master_df['order_delivered_customer_date'] - master_df['order_estimated_delivery_date']).dt.total_seconds() / 86400
+
+# 3. Maliyet zaten hazır: 'freight_value'
+# 4. Memnuniyet zaten hazır: 'review_score' (Boş olanları ortalama puan olan 4 ile dolduralım)
+master_df['review_score'] = master_df['review_score'].fillna(4)
+
+print("✅ Matematiksel metrikler başarıyla çıkarıldı!")
+
+# Kontrol için yeni sütunları terminale basalım
+print("\n--- Metrik Eklenmiş İlk 3 Satır ---")
+print(master_df[['order_id', 'hiz_gun', 'gecikme_gun', 'freight_value', 'review_score']].head(3))
