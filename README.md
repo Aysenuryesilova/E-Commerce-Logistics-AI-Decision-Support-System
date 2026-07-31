@@ -1,54 +1,117 @@
-# E-Commerce Logistics AI Decision Support System
-### *An Edge AI & SWARA-COBRA Multi-Criteria Framework for E-Commerce Carrier Selection*
+# 📦 E-Commerce Logistics AI Decision Support System
+### *An Edge AI, SWARA-COBRA Multi-Criteria Framework & True RAG System for E-Commerce Carrier & Route Selection*
 
 ---
 
-## 📚 Academic & Methodological Overview
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.28%2B-FF4B4B.svg)](https://streamlit.io/)
+[![Microsoft Foundry Local](https://img.shields.io/badge/Edge%20AI-Azure%20Foundry%20Local-0078D4.svg)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/overview)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-This repository hosts an advanced, privacy-first **Logistics Decision Support System (DSS)** designed to solve the critical carrier selection problem for e-commerce enterprises. Operating entirely on decentralized, **On-Device (Edge AI)** hardware infrastructure, the architecture synthesizes mathematical multi-criteria optimization with natural language engineering.
+---
 
-The mathematical core of the decision engine implements a hybrid formulation:
-1. **SWARA (Step-wise Weight Assessment Ratio Analysis):** Used to structure and compute the dynamic, subjective criteria weights ($w_j$) derived from expert-level operational preferences.
-2. **COBRA (COmprehensive Distance Based Ranking):** Deployed as the core multi-criteria evaluation matrix to normalize conflicting benefit and cost criteria, measure exact Euclidean and absolute distances to ideal/anti-ideal parameters, and rank absolute route efficiency.
+## 📖 Executive Summary & Context
 
-**Methodological Anchor:**
-> Güler, A. (2025). Türkiye’deki bilişim sistemleri ve teknolojileri bölümlerinin SWARA yöntemi ile ağırlıklandırılması ve COBRA yöntemiyle sıralanması. *Uluslararası Avrasya Sosyal Bilimler Dergisi, 16*(60), 825-840.
+This project was developed for **Barbaros Bey's AI & Decision Support Summer Program**.
+
+Rather than treating logistics decision-making as a raw prediction task, this system adopts a **research-first, product-oriented methodology**. It addresses the critical e-commerce last-mile carrier selection problem by combining:
+1. **Mathematical Multi-Criteria Optimization (SWARA-COBRA):** To structure subjective criteria weights and compute exact distance-based route efficiency rankings.
+2. **True RAG & Local LLM (Azure Foundry Local / WinML):** Operating on-device (`phi` model) to deliver zero-data-leakage, explainable executive analytics reports in response to natural language manager queries.
+3. **4-Week Research & Development Journal:** Tracking operational problem discovery, literature benchmarking, and architectural evolution day by day.
+
+---
+
+## 📁 Repository Structure & Research Deliverables
+
+- 📓 [RESEARCH_JOURNAL.md](RESEARCH_JOURNAL.md) — 4-week detailed learning log & daily research entries (Days 1–28).
+- 📚 [LITERATURE_SURVEY.md](LITERATURE_SURVEY.md) — Academic paper survey, market benchmarks, and the identified research gap.
+- 🎬 [PRESENTATION_SCRIPT.md](PRESENTATION_SCRIPT.md) — 5-minute video presentation guide and timestamped script.
+- 💻 [app.py](app.py) — Interactive Streamlit Web Application (SWARA-COBRA matrix & True RAG Analyst).
+- 🗄️ [lojistik.db](lojistik.db) — SQLite database compiled from 113,000+ Brazilian Olist e-commerce purchase orders.
+- ⚙️ [veri_isleme.py](veri_isleme.py) — Data processing pipeline for point-to-point route performance aggregation.
 
 ---
 
 ## 🏗️ System & True RAG Architecture
 
-The platform bypasses data residency vulnerabilities and external API latencies by anchoring its retrieval pipelines locally via the **Microsoft Foundry Local SDK** and the **Windows Machine Learning (WinML)** hardware pipeline running an offline `phi-1.5-mini` Large Language Model.
-
-### Data Engineering & Pipeline Mechanics:
-* **The Dataset:** Derived from the **Brazilian Olist E-Commerce Ecosystem Dataset** (comprising over 113,000 corporate purchase orders). Through intensive data processing (`veri_isleme.py`), massive cross-table interactions (`orders`, `items`, `reviews`, `sellers`, `customers`) were aggregated into definitive point-to-point state logistics routes (e.g., `SP -> RJ`).
-* **True RAG Pipeline (Retrieve -> Augment -> Generate):**
-  * **Retrieve:** The manager parses the user's natural language query (e.g., *"Budget is strictly limited, maximize buyer satisfaction"*), maps intent parameters, and executes a vectorized similarity search using a localized mathematical embedding alignment via `scikit-learn`'s cosine similarity matrix.
-  * **Augment:** The highest-ranked logistical vector indices (Top-K routes) are extracted dynamically from the `sqlite3` database file (`lojistik.db`) and injected directly into a structured system prompt context block.
-  * **Generate:** The fully bound context string is pushed onto the localized WinML hardware ring. `phi-1.5-mini` synthesizes a comprehensive, deterministic corporate logistics analytics report in real-time with zero cloud dependency and zero data leakage risk.
+```
+                               ┌─────────────────────────┐
+                               │   Olist Logistics DB    │
+                               │     (113,000+ Orders)   │
+                               └────────────┬────────────┘
+                                            │
+                               ┌────────────▼────────────┐
+                               │  SWARA-COBRA Optimization│
+                               │   (Cost/Benefit Matrix) │
+                               └────────────┬────────────┘
+                                            │
+    ┌─────────────────────────┐             │
+    │ Manager NL Query        │             │
+    │ ("Low cost, high SLA")  │             │
+    └────────────┬────────────┘             │
+                 │                          │
+                 ▼                          ▼
+    ┌────────────────────────────────────────────────────┐
+    │ Cosine Vector Similarity (Retrieve Top-K Routes)   │
+    └─────────────────────────┬──────────────────────────┘
+                              │
+                              ▼
+    ┌────────────────────────────────────────────────────┐
+    │ System Prompt Context Augmentation                 │
+    └─────────────────────────┬──────────────────────────┘
+                              │
+                              ▼
+    ┌────────────────────────────────────────────────────┐
+    │ On-Device LLM (Azure Foundry Local / WinML `phi`)   │
+    └─────────────────────────┬──────────────────────────┘
+                              │
+                              ▼
+    ┌────────────────────────────────────────────────────┐
+    │ Executive Strategy & Decision Support Report       │
+    └────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 🛠️ Technology Stack
+## 📚 Academic & Methodological References
 
-| Architecture Layer | Core Technologies |
-| :--- | :--- |
-| **Artificial Intelligence (Edge AI)** | Microsoft Foundry Local SDK, WinML API, `phi-1.5-mini` (3.8B LLM) |
-| **Mathematical Modeling** | SWARA Evaluation, COBRA Ranking Formulations, Vectorized Embedding Simulations |
-| **Data Engineering** | Python Core, SQLite 3, Pandas, NumPy, Scikit-learn (Cosine Metrics) |
-| **User Interface & Execution** | Streamlit Web Framework, Matplotlib/Line/Bar Native Dynamic Rendering |
+1. **Güler, A. (2025).** Türkiye’deki bilişim sistemleri ve teknolojileri bölümlerinin SWARA yöntemi ile ağırlıklandırılması ve COBRA yöntemiyle sıralanması. *Uluslararası Avrasya Sosyal Bilimler Dergisi, 16*(60), 825-840.
+2. **Microsoft AI Foundry & Agent Framework:** [Azure AI Foundry Overview](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/overview)
+3. **Microsoft AI For Beginners:** [GitHub AI-For-Beginners](https://microsoft.github.io/AI-For-Beginners/)
 
 ---
 
-## 📦 Installation & Local Deployment
+## 🚀 Quick Start & Local Execution
 
 ### Prerequisites
-* **OS:** Windows 10/11 (Required for native Windows Machine Learning / WinML drivers)
-* **Python Engine:** Python 3.10 or higher installed locally
+- Python 3.10+
+- Windows 10/11 (for native WinML driver acceleration) or CPU fallback
 
-### Step-by-Step Setup
+### Installation
 
-1. **Clone the Repository**
-```bash
-   git clone [https://github.com/Aysenuryesilova/E-Commerce-Logistics-AI-Decision-Support-System.git](https://github.com/Aysenuryesilova/E-Commerce-Logistics-AI-Decision-Support-System.git)
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/Aysenuryesilova/E-Commerce-Logistics-AI-Decision-Support-System.git
    cd E-Commerce-Logistics-AI-Decision-Support-System
+   ```
+
+2. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Run the Interactive Streamlit Dashboard:**
+   ```bash
+   streamlit run app.py
+   ```
+
+4. **Access the Dashboard:**
+   Open browser at `http://localhost:8501`.
+
+---
+
+## 👩‍💻 Author & Contact
+
+**Ayşenur Yeşilova**  
+- GitHub: [@Aysenuryesilova](https://github.com/Aysenuryesilova)  
+- Project Repository: [E-Commerce-Logistics-AI-Decision-Support-System](https://github.com/Aysenuryesilova/E-Commerce-Logistics-AI-Decision-Support-System)
